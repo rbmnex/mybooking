@@ -4,6 +4,8 @@ class User_model extends CI_Model {
 
     var $table = 'users';
     var $table_pk_id = 'users.id';
+    var $table_user_username = 'users.username';
+    var $table_profile_nokp = 'user_profiles.nokp';
     var $table_reference_user_profiles = 'user_profiles';
     var $table_reference_user_profiles_select_fields = 'user_profiles.full_name, user_profiles.position_name, user_profiles.position_level, user_profiles.department_name, user_profiles.contact_office, user_profiles.contact_mobile';
     var $table_reference_user_profiles_fk_id = 'user_profiles.fk_user_id';
@@ -38,7 +40,8 @@ class User_model extends CI_Model {
        
         $this->db->select("{$this->table}.*, {$this->table_reference_user_profiles}.*")
                 ->from($this->table)->where('deleted != 1')
-                ->join($this->table_reference_user_profiles, "{$this->table_pk_id} = {$this->table_reference_user_profiles_fk_id}", 'left');
+                ->join($this->table_reference_user_profiles, "{$this->table_user_username} = {$this->table_profile_nokp}", 'left');
+//                ->join($this->table_reference_user_profiles, "{$this->table_pk_id} = {$this->table_reference_user_profiles_fk_id}", 'left');
         if (!empty($where_clause)) {
             $this->db->where($where_clause);
         }
@@ -70,13 +73,16 @@ class User_model extends CI_Model {
     function getRecordById($id) {
         $this->db->select("{$this->table}.*, {$this->table_reference_user_profiles}.*");
         $this->db->from($this->table);
-        $this->db->join($this->table_reference_user_profiles, "{$this->table_pk_id} = {$this->table_reference_user_profiles_fk_id}", 'left');
+        $this->db->join($this->table_reference_user_profiles, "{$this->table_user_username} = {$this->table_profile_nokp}", 'left');
         $this->db->where("{$this->table_pk_id} = $id");
         $this->db->limit(1);
 
         $query = $this->db->get();
         $result = $query->row();
-
+//        echo '<pre>';
+//        print_r($this->db->last_query());
+//        echo '</pre>';
+//        die();
         return (!empty($result)) ? $result : array();
     }
     

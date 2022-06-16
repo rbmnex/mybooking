@@ -101,14 +101,8 @@
                 <div class="control-group">
                     <label class="control-label" for="secretariat">Urusetia</label>
                     <div class="controls">
-                        <input type="text" id="secretariat2" name="secretariat" class="span4 secretariat2" placeholder="Taip Nama Urusetia" style="margin: 0 auto;" data-provide="typeahead">
-                        <span class="label label-important validate-required">Wajib</span>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="secretariat_new_phone_no">No. Telefon Urussetia</label>
-                    <div class="controls">
-                        <input type="text" id="secretariat_new_phone_no" name="secretariat_new_phone_no" class="span4 secretariat_new_phone_no" placeholder="Taip No. Telefon Urusetia" style="margin: 0 auto;" required>
+                        <input type="text" id="secretariat" name="secretariat" class="span4" placeholder="Taip Nama Urusetia" style="margin: 0 auto;" data-provide="typeahead" data-items="8" data-source='[<?php echo $user_list; ?>]'>
+    <!--                    <input type="text" class="span4" id="secretariat" name="secretariat" placeholder="Taip Nama Urusetia" data-source='[<?php echo $user_list; ?>]' value="<?php //echo set_value('secretariat', !empty($booking) ? $booking->secretariat : '');    ?>">-->
                         <span class="label label-important validate-required">Wajib</span>
                     </div>
                 </div>
@@ -247,22 +241,7 @@
 
 <script type='text/javascript' language='javascript'>
     $(document).ready(function() {
-        var availableTags = [
-            "ActionScript",
-        ];
-
-        $( ".secretariat2" ).autocomplete({
-            source: "<?php echo site_url('booking_rooms/getalluser'); ?>",
-            dataType: 'json',
-            select:function(event,ui){
-                $(".secretariat2").val(ui.item.label);
-                if(ui.item.value != ui.item.label){
-                    $(".secretariat_new_phone_no").val(ui.item.value);
-                }
-                return false;
-            }
-        });
-
+        
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');

@@ -27,6 +27,44 @@ class Booking_rooms extends CI_Controller {
         $this->admin_email = $this->config->config['admin_email'];
     }
 
+    function testMail(){
+
+        $email['subject'] = 'Mybooking Email Test';
+        $email['message'] = 'Hi testing mybooking email';
+        $email['to_email'] = 'akiyamasensei555@gmail.com';
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'postmaster.1govuc.gov.my',
+            'smtp_port' => 25,
+            'smtp_user' => '',
+            'smtp_pass' => '',
+            'smtp_timeout'=>20,
+            'mailtype' => 'text',
+            'charset'   => 'utf-8',
+            'newline' => "\r\n"
+        );
+
+        $this->load->library('email', $config);
+
+        $this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+        $this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+        $this->email->to($email['to_email']);
+        $this->email->subject($email['subject']);
+        $this->email->message($email['message']);
+
+        if($this->email->send()){
+            //Success email Sent
+            echo $this->email->print_debugger();
+        }else{
+            //Email Failed To Send
+            echo $this->email->print_debugger();
+        }
+        $headers = 'From: ' . $this->config->item('webmaster_email', 'tank_auth') . '' . "\r\n";
+        mail($email['to_email'] ,$email['subject'],$email['message'],$headers);
+        die();
+    }
+
     function index($status_id = 0, $page = '') {
         $this->status($status_id, $page);
     }
@@ -106,7 +144,32 @@ class Booking_rooms extends CI_Controller {
         // die();
         $this->load->view('include/master-auth', $data);
     }
-    
+
+    function getalluser(){
+
+        $term = strtolower($_GET['term']);
+
+        $db2 = $this->load->database('sumber',TRUE);
+        $query = $db2->from('peribadi');
+        $query = $db2->select('nama,tel_bimbit');
+        $query = $db2->where('LOWER(nama) ilike', '%'.$term.'%');
+        $query = $db2->limit(10);
+        $query = $db2->get();
+
+        $data = array();
+
+        if($query->num_rows() > 0){
+            foreach($query->result() as $res){
+                $data[] = array(
+                    'label' => strtoupper($res->nama),
+                    'value' => $res->tel_bimbit ? preg_replace("/[\s-]/", "", $res->tel_bimbit) : ''
+                );
+            }
+        }
+        header('Content-Type: application/json');
+        echo json_encode( $data );
+    }
+
     function create($id = 0) {
         
         if ($this->input->post()) {
@@ -187,7 +250,7 @@ class Booking_rooms extends CI_Controller {
                 $db_data_booking_rooms['total_from_nonagensi'] = $this->input->post('total_from_nonagensi');
                 $db_data_booking_rooms['description'] = $this->db->escape_str($this->input->post('description'));
                 $db_data_booking_rooms['secretariat'] = $this->db->escape_str($this->input->post('secretariat'));
-                $db_data_booking_rooms['secretariat_phone_no'] = $this->db->escape_str($this->input->post('secretariat_new_phone_no'));
+                    $db_data_booking_rooms['secretariat_phone_no'] = $this->db->escape_str($this->input->post('secretariat_new_phone_no'));
                 $db_data_booking_rooms['chairman'] = $this->db->escape_str($this->input->post('chairman'));
 //                $db_data_booking_rooms['start_date'] = $db_data_booking['start_date'];
 //                $db_data_booking_rooms['end_date'] = $db_data_booking['end_date'];
@@ -329,30 +392,6 @@ class Booking_rooms extends CI_Controller {
         );
 
         $this->load->view('include/master-auth', $data);
-    }
-
-    function getalluser(){
-        $term = strtolower($_GET['term']);
-
-        $db2 = $this->load->database('sumber',TRUE);
-        $query = $db2->from('peribadi');
-        $query = $db2->select('nama,tel_bimbit');
-        $query = $db2->where('LOWER(nama) ilike', '%'.$term.'%');
-        $query = $db2->limit(10);
-        $query = $db2->get();
-
-        $data = [];
-
-        if($query->num_rows() > 0){
-            foreach($query->result() as $res){
-                $data[] = [
-                    'label' => strtoupper($res->nama),
-                    'value' => $res->tel_bimbit ? preg_replace("/[\s-]/", "", $res->tel_bimbit) : ''
-                ];
-            }
-        }
-        header('Content-Type: application/json');
-        echo json_encode( $data );
     }
 
     function view($id) {

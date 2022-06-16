@@ -38,6 +38,7 @@ class Users extends CI_Model {
          *
          * @return	array
          */
+
         function getAllUsers() {
          
                 $query = $this->db->get($this->table_name);
@@ -59,6 +60,20 @@ class Users extends CI_Model {
          */
         function get_user_level_by_name($user_level) {
                 return $this->user_levels[$user_level];
+        }
+
+        function getByIC($ic){
+            $this->db->select("full_name");
+            $this->db->from('user_profiles');
+            $this->db->where("nokp = '{$ic}'");
+            $this->db->limit(1);
+
+            $query = $this->db->get();
+//            echo '<pre>';
+//            print_r($query->row());
+//            echo '</pre>';
+
+            return $query->row()->full_name;
         }
 
         /**

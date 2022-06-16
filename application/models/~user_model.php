@@ -12,6 +12,7 @@ class User_model extends CI_Model {
         1 => 'Pentadbir Utama',
         2 => 'Pentadbir Bahagian',
         3 => 'Ketua Pemandu',
+        4 => 'Pentadbir Peralatan',
     );
     var $user_status = array(
         0 => 'Belum Aktif',
@@ -74,7 +75,6 @@ class User_model extends CI_Model {
         $this->db->limit(1);
 
         $query = $this->db->get();
-
         $result = $query->row();
 
         return (!empty($result)) ? $result : array();
@@ -103,7 +103,7 @@ class User_model extends CI_Model {
                 ->where("{$this->table_reference_user_profiles}.full_name LIKE '%$nama%'");
 
         $query = $this->db->get();
-        
+        //echo '<pre>';die($this->db->last_query());
         $result = $query->row();
 
         return (!empty($result)) ? $result : array();

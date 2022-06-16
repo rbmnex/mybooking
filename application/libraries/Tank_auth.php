@@ -223,7 +223,11 @@ class Tank_auth {
      * @return	string
      */
     function get_user_fullname() {
-        return $this->ci->session->userdata('fullname');
+        $nokp =  $this->ci->session->userdata('username');
+        $getName = $this->ci->users->getByIC($nokp);
+        return $getName;
+
+//        return $this->ci->session->userdata('fullname');
     }
 
     /**

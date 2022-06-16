@@ -53,19 +53,18 @@ $active_record = TRUE;
 //$db['default']['password'] = 'test_server';
 //$db['default']['database'] = 'mybooking_db';
 //$db['default']['dbdriver'] = 'mysql';
-//Ubah bawah ni kalau perlu ye - Meow
+
+$db['sumber']['database'] = 'sumber14';
+$db['sumber']['hostname'] = '10.8.68.19';
+$db['sumber']['username'] = 'sepakat';
+$db['sumber']['password'] = '$3p4k4t$';
+$db['sumber']['dbdriver'] = 'postgre';
+
 $db['default']['database'] = 'mybooking_db';
 $db['default']['hostname'] = '10.8.68.19';
-$db['default']['username'] = 'postgres';
-$db['default']['password'] = 'ayamdarapasartani';
+$db['default']['username'] = 'sepakat';
+$db['default']['password'] = '$3p4k4t$';
 $db['default']['dbdriver'] = 'postgre';
-
-//Ubah ke live Please - Meow
-$db['sumber']['database'] = 'sumber_live_latest';
-$db['sumber']['hostname'] = 'localhost';
-$db['sumber']['username'] = 'postgres';
-$db['sumber']['password'] = 'ayamdarapasartani';
-$db['sumber']['dbdriver'] = 'postgre';
 
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
