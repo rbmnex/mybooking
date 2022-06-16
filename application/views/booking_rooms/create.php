@@ -219,7 +219,7 @@
             <div class="control-group">
                 <div class="controls">
                     <?php echo anchor("booking_rooms", '<i class="icon-arrow-left"></i> Kembali', 'class="btn"'); ?>
-                    <input type="submit" class="btn btn-primary" value="Simpan"/>
+                    <input type="submit" class="btn btn-primary" value="Hantar"/>
                 </div>
             </div>
         </div>

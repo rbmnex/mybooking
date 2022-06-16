@@ -162,7 +162,7 @@
         });
         
         $("#event-calendar").eventCalendar({
-            eventsjson: 'https://mybooking.jkr.gov.my/ajaxify/getTempahanList<?php echo (!empty($status_id)) ? "/$status_id" : ''; ?>'
+            eventsjson: window.location.origin + '/ajaxify/getTempahanList<?php echo (!empty($status_id)) ? "/$status_id" : ''; ?>'
         });
         
         $('#myTab a').click(function (e) {

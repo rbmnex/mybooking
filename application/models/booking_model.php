@@ -52,6 +52,7 @@ class Booking_model extends CI_Model {
     );
 
     function getAllRecordsForRoom($params, $check_user = true) {
+        ini_set('memory_limit', '250M');
         $where_clause = "";
 
         if ($check_user):
@@ -115,10 +116,14 @@ class Booking_model extends CI_Model {
             $this->db->limit($params['pagination']['per_page']);
         }
 
+
+
         $query = $this->db->get();
 
         $result = array();
+
         if ($query && $query->num_rows() > 0) {
+
             if (!empty($id)) {
                 $result = $query->row();
             } else {
@@ -127,6 +132,7 @@ class Booking_model extends CI_Model {
                 }
             }
         }
+
 
         return $result;
     }

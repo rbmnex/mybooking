@@ -118,7 +118,6 @@ class Ajaxify extends CI_Controller {
     }
 
     public function getTempahanList($booking_type = 1) {
-        
         $params = array(
             'status_id' => 1,
             'booking_type' => $booking_type,

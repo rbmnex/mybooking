@@ -460,7 +460,7 @@ if ($booking->booking_status == 0) {
             <div class="controls">
                 <?php echo anchor("booking_rooms", '<i class="icon-arrow-left"></i> Kembali', 'class="btn"'); ?>
                 <?php if (!in_array($booking->booking_status, array(6, 8)) && (($this->tank_auth->is_admin() || $this->tank_auth->is_subadmin()) || ($booking->fk_user_id == $this->tank_auth->get_user_id()))): ?>
-                    <input id="submit" type="submit" class="btn btn-primary <?php echo (isset($food_display) && !empty($food_display) && ($booking->booking_mode > 1) && (!$this->tank_auth->is_subadmin())) ? $food_display : ''; ?>" value="Simpan"/>
+                    <input id="submit" type="submit" class="btn btn-primary <?php echo (isset($food_display) && !empty($food_display) && ($booking->booking_mode > 1) && (!$this->tank_auth->is_subadmin())) ? $food_display : ''; ?>" value="Hantar"/>
                 <?php endif; ?>
             </div>
         </div>

@@ -66,6 +66,7 @@ class Booking_rooms extends CI_Controller {
     }
 
     function index($status_id = 0, $page = '') {
+
         $this->status($status_id, $page);
     }
 
@@ -171,7 +172,7 @@ class Booking_rooms extends CI_Controller {
     }
 
     function create($id = 0) {
-        
+
         if ($this->input->post()) {
             $this->form_validation->set_rules('start_date', 'Masa Mula', 'required');
             $this->form_validation->set_rules('end_date', 'Masa Tamat', 'required');
@@ -181,26 +182,26 @@ class Booking_rooms extends CI_Controller {
             $this->form_validation->set_rules('total_from_agensi', 'Bil. Pegawai Agensi', 'required');
             $this->form_validation->set_rules('total_from_nonagensi', 'Bil. Pegawai Luar', 'required');
             $this->form_validation->set_rules('secretariat', 'Urusetia', 'required');
-            
-            
-            
+
+
+
             if ($this->form_validation->run() != FALSE) {
-             
+
                 $capid = $this->input->post('fk_room_id');
                 $db_data_booking_rooms['total_from_agensi'] = $this->input->post('total_from_agensi');
                 $db_data_booking_rooms['total_from_nonagensi'] = $this->input->post('total_from_nonagensi');
                 //total cap for rooms
                 $capacity =$this->Room_model->getRecordByCap($capid);
                 $sumCapacity = $db_data_booking_rooms['total_from_agensi'] + $db_data_booking_rooms['total_from_nonagensi'];
-                
-               // ake utk filter total kapisiti bilik tidak melebihi total user input. 
+
+               // ake utk filter total kapisiti bilik tidak melebihi total user input.
                 if ($sumCapacity > $capacity){
                     $this->session->set_userdata(array('error_message' => '<i class="icon-remove-sign"></i> Bilangan Pegawai Melebihi Kapasiti Bilik ! Sila kurangkan bilangan pegawai untuk teruskan tempahan'));
                 }else{
                     $data['site_name'] = $this->config->item('website_name', 'tank_auth');
 
                     // Send email with password activation link
-                  
+
                     //$this->session->set_userdata(array('error_message' => '<i class="icon-remove-sign"></i>  '+ $aaa +''));
                 $id = $this->input->post('id');
                 $db_data_booking['booking_type'] = $this->Booking_model->booking_types['room'];
@@ -211,8 +212,8 @@ class Booking_rooms extends CI_Controller {
                 $db_data_booking['booking_status'] = 0;
                 $db_data_booking['created'] = date("Y-m-d H:i:s", now());
                 $db_data_booking['fk_user_id'] = $this->input->post('fk_user_id');
-                
-                
+
+
                 $selected_food_types = $this->input->post('food_type_id');
                 $food_type_list = is_array($selected_food_types) ? implode(',', $selected_food_types) : '';
 
@@ -255,16 +256,16 @@ class Booking_rooms extends CI_Controller {
 //                $db_data_booking_rooms['start_date'] = $db_data_booking['start_date'];
 //                $db_data_booking_rooms['end_date'] = $db_data_booking['end_date'];
 //                $db_data_booking_rooms['fk_user_id'] = $db_data_booking['fk_user_id'];
-                
-               
+
+
                 /*$sumCapacity = $db_data_booking_rooms['total_from_agensi'] + $db_data_booking_rooms['total_from_nonagensi'];
-                
+
                 if ($sumCapacity > $room->capacity):
-                    
+
                     $this->session->set_userdata(array('error_message' => '<i class="icon-remove-sign"></i> '+ $sumCapacity + ''));
-                
+
                     endif;*/
-                    
+
                 $db_data_booking_rooms['fk_booking_food_id'] = 0;
                 if (!empty($food_type_list)):
                     $this->Booking_food_model->setRecord($db_data_booking_foods, 0);
@@ -333,9 +334,9 @@ class Booking_rooms extends CI_Controller {
                                 $this->Email_queue_model->setRecord($email);
                             endforeach;
                         endif;
-                        
+
                          //add ake 14.4.14 untuk send email after user booked
-                
+
                 $GetbookUsers = $this->User_model->getRecordById($db_data_booking['fk_user_id']);
                 $GetbookRoomName = $this->Booking_model->getRecordForRoomById($db_data_booking_rooms['fk_room_id']);
                 $book_email['start_date'] = $db_data_booking['start_date'];
@@ -350,13 +351,13 @@ class Booking_rooms extends CI_Controller {
                 $book_email['total_from_nonagensi'] = $db_data_booking_rooms['total_from_nonagensi'];
                 $book_email['total_from_agensi'] = $db_data_booking_rooms['total_from_agensi'];
                 $book_email['room_purpose'] = $db_data_booking_rooms['room_purpose'];
-                
+
                 $this->_send_email('booking-room', $email['to_email'], $book_email);
 
                     redirect('booking_rooms');
                     }
                   }
-                 }    
+                 }
                 }
             else {
                 $this->session->set_userdata(array('error_message' => '<i class="icon-remove-sign"></i> Sila lengkapkan borang untuk teruskan .'));
@@ -484,7 +485,7 @@ class Booking_rooms extends CI_Controller {
                         $owner = 'admin';
                         $owner_room = $this->User_model->getAllRecords(array('user_level' => '1'));
                     endif;
-                   
+
 
                     $site_name = $this->config->item('website_name', 'tank_auth');
                     $content_data['site_name'] = $site_name;
@@ -495,7 +496,7 @@ class Booking_rooms extends CI_Controller {
                     $email['message'] = $this->Email_queue_model->setMessageContent($booking_notification_type, $content_data);
                     //$getUserFkId  = $this->Booking_model->getUserFkId($id);
                     //$email_booker = $this->User_model->getEmailById($getUserFkId);
-                    
+
                     //$subject = $email['subject'] ;
                     //$messageNoti = $email['message'];
 
@@ -508,19 +509,19 @@ class Booking_rooms extends CI_Controller {
                             $this->Email_queue_model->setRecord($email);
                         endforeach;
                     endif;
-                    
+
                     $emailbooker = $this->Booking_model->getRecordForRoomById($id);
                     $booker = $this->User_model->getRecordById($emailbooker->fk_user_id);
                     $email['to_email'] = $booker->email;
-                    
+
                     //$email_booker  = $email['to_email'];
                     $this->_send_email($booking_notification_type,$booker->email,$content_data);
                     $this->Email_queue_model->setRecord($email);
-                    
+
                     /** end of email queue part * */
                     $message = "Tempahan rujukan <strong>$booking_ref_no</strong> telah berjaya dikemaskinikan";
                     $this->session->set_userdata(array('action_message' => '<i class="icon-ok-sign"></i> ' . $message));
-                    
+
                     redirect('booking_rooms');
                 }
             } else {
@@ -589,7 +590,7 @@ class Booking_rooms extends CI_Controller {
 
         $this->email->send();
     }
-    
+
     function sendNotification() {
         $this->email->from('admin@jkr.gov.my', 'MyBooking System');
         $this->email->cc($email);
@@ -599,8 +600,8 @@ class Booking_rooms extends CI_Controller {
 
         $this->email->send();
     }
-    
-    
+
+
 
 }
 

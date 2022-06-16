@@ -54,16 +54,16 @@ $active_record = TRUE;
 //$db['default']['database'] = 'mybooking_db';
 //$db['default']['dbdriver'] = 'mysql';
 
-$db['sumber']['database'] = 'sumber14';
-$db['sumber']['hostname'] = '10.8.68.19';
-$db['sumber']['username'] = 'sepakat';
-$db['sumber']['password'] = '$3p4k4t$';
+$db['sumber']['database'] = 'sumber_live';
+$db['sumber']['hostname'] = 'localhost';
+$db['sumber']['username'] = 'rookiextreme';
+$db['sumber']['password'] = '123123123';
 $db['sumber']['dbdriver'] = 'postgre';
 
 $db['default']['database'] = 'mybooking_db';
-$db['default']['hostname'] = '10.8.68.19';
-$db['default']['username'] = 'sepakat';
-$db['default']['password'] = '$3p4k4t$';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'rookiextreme';
+$db['default']['password'] = '123123123';
 $db['default']['dbdriver'] = 'postgre';
 
 $db['default']['dbprefix'] = '';

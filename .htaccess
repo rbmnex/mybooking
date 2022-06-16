@@ -1,5 +1,15 @@
-RewriteEngine on
-RewriteBase /mybooking/
-RewriteCond %{REQUEST_FILENAME} !-f
+RewriteEngine On
+RewriteBase /
+
+# Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule .* index.php/$0 [PT,L] 
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Authorization Headers
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Handle Front Controller...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]

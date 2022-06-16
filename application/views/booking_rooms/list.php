@@ -104,8 +104,8 @@ if ($this->tank_auth->is_admin()) {
                     <?php if ($this->tank_auth->is_admin()): ?>
 <!--                        <td class="nolink"><input type="checkbox" name="delete[<?php echo $booking->booking_id; ?>]" value="<?php echo $booking->booking_id; ?>"></td>-->
                     <?php endif; ?> 
-
-                    <td><?php echo "{$booking->room_name}<br/>{$booking->floor} {$booking->building}, {$booking->location}"; ?></td>
+                    <?php $totalOrang = $booking->total_from_agensi + $booking->total_from_nonagensi ;?>
+                    <td><?php echo "{$booking->room_name}, {$totalOrang} Orang,<br/>Aras {$booking->floor}, {$booking->building}, {$booking->location} ({$booking->building})"; ?></td>
                     <td>
                         <strong>Tujuan:</strong>
                         <?php echo $booking->room_purpose; ?>
